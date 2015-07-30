@@ -1,0 +1,502 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>FSE Chatroom</title>
+    <link rel="icon" href="images/chatroom.png" type="image/x-icon">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <script type="text/javascript" src="scripts/date.js"></script>
+
+    <style>
+        /** { margin: 0; padding: 0; box-sizing: border-box; }*/
+        
+        body {
+            font-family: 'Roboto';
+            background: lightgrey;
+        }
+        #welcome {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+        #logo {
+            height: 300px;
+            position: relative;
+            width: 400px;
+        }
+        .home-menu {
+            background: #0078e7;
+            color: #FFF;
+        }
+        #welcome input {
+            width: 20%;
+        }
+        #chatroom form {
+            padding-bottom: 10px;
+        }
+        #m {
+            padding: 10px;
+            width: 88%;
+            margin: 1%;
+        }
+        #sendChat {
+            width: 9%;
+            border: none;
+            padding: 10px;
+        }
+        .home-menu ul {
+            float: right;
+        }
+        .chatButton {
+            background: #ff6e28;
+            color: white;
+        }
+        .pure-menu-heading {
+            color: white !important;
+        }
+        .top {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            height: 83%;
+            background: url("images/msgBg.png");
+            background-size: cover;
+            overflow: scroll;
+            display: flex;
+            flex-direction: column;
+        }
+        #messages {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        /*#messages li:nth-child(odd) { background: #eee; }*/
+        
+        #userWC {
+            padding-right: 5px;
+        }
+        #chatroom {
+            width: 70%;
+            margin-left: 15%;
+            margin-bottom: 1%;
+            margin-top: 3%;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06), 0 2px 5px 0 rgba(0, 0, 0, .2);
+            height: 600px;
+            background: #FFF;
+        }
+        .custom-restricted-width {
+            display: block;
+            width: 20%;
+            height: 94%;
+            background-color: #f2f2f2;
+            position: relative;
+            float: left;
+        }
+        .online {
+            color: green !important;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .total {
+            left: -9px;
+            position: relative;
+        }
+        #chatPage {
+            display: block;
+            float: left;
+            width: 80%;
+            height: 102%;
+        }
+        #online_list li {
+            padding-left: 17px;
+            padding-bottom: 6px;
+        }
+        #messages div {
+            /*flex-grow: 1;*/
+            /*margin-bottom: 48px;*/
+            
+            flex-shrink: 0;
+        }
+        .userLog {
+            text-align: center;
+            clear: both;
+            display: inline-block;
+            position: relative;
+            color: white;
+            font-weight: 900;
+            font-size: 18px;
+            padding: 10px;
+            display: block;
+        }
+        .userLog:before,
+        .userLog:after {
+            content: "";
+            position: absolute;
+            height: 5px;
+            border-bottom: 1px solid white;
+            /* border-top: 1px solid white; */
+            
+            top: 16px;
+            width: 42%;
+        }
+        .userLog:before {
+            right: 65%;
+            margin-right: 6px;
+        }
+        .userLog:after {
+            left: 65%;
+            margin-left: 6px;
+        }
+        .uid {
+            font-weight: 900;
+            overflow: hidden;
+            text-align: left;
+            width: 100%;
+            display: block;
+            font-size: 19px;
+        }
+        .message,
+        .mymessage {
+            min-width: 38%;
+            border-radius: 8px;
+            box-shadow: 0 1px .5px rgba(0, 0, 0, .13);
+            padding: 3px 7px 0px 7px;
+            margin-right: 8px;
+            display: block;
+            margin: 10px 10px 10px 10px;
+            max-width: 60%;
+        }
+        .message {
+            float: left;
+            background-color: white;
+            position: relative;
+        }
+        .mymessage {
+            float: right;
+            background-color: #E8E8E8;
+            position: relative;
+        }
+        .msg {
+            display: block;
+            margin-top: 8px;
+            width: 90%;
+        }
+        .cmsg {
+            padding-top: 3px;
+        }
+        .mdate {
+            float: right;
+            /* display: inline-block; */
+            
+            font-size: 11px;
+            position: relative;
+            color: gray;
+            top: -15px;
+            /* padding-left: 7px; */
+            /* padding-bottom: 12px; */
+            /*  width: 7%;*/
+        }
+        #online_list {
+            height: 90%;
+            overflow: scroll;
+        }
+        /*.cmsg:before{
+        border-bottom:border-bottom: 1px solid grey ;
+        width: 42%;
+         content: "";
+         }*/
+        
+        .message:before {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            left: -6px;
+            top: 8px;
+            height: 0px;
+            width: 0px;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid white;
+        }
+        .mymessage:before {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            right: -6px;
+            top: 8px;
+            height: 0px;
+            width: 0px;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 8px solid #E8E8E8;
+        }
+    </style>
+</head>
+<script src="/socket.io/socket.io.js"></script>
+
+
+<body>
+
+    <div id="welcome" class="pure-form">
+        <img id="logo" src="images/chatroom.png" align="center" title="logo" alt="logo" />
+        <h1> Welcome to FSE Chatroom </h1>
+        <form id="userForm" action="" class="pure-form">
+            <input id="uid" autocomplete="off" placeholder="Enter your user id here.." autofocus class="pure-input" />
+            <button id="uidEnter" class="pure-button pure-button-primary">Enter</button>
+        </form>
+    </div>
+    <div id="chatroom" style="display:none;">
+        <div class="header">
+            <div class="home-menu pure-menu pure-menu-horizontal">
+                <a class="pure-menu-heading" href="">FSE Chat</a>
+                <ul class="pure-menu-list">
+                    <li id="userWC" class="pure-menu-item">Welcome !</li>
+                    <li class="pure-menu-item chatButton" id="closeButton"><a href="#" class="pure-menu-link">X</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pure-menu pure-menu-scrollable custom-restricted-width">
+            <span class="pure-menu-heading online">Online Friends</span>
+            <span class="online total"></span>
+
+            <ul id="online_list" class="pure-menu-list">
+            </ul>
+        </div>
+
+        <div id="chatPage">
+            <div class="top" id="messages"></div>
+            <form id="chatBox" action="" class="pure-form">
+                <input id="m" autocomplete="off" placeholder="Type here.." class="pure-input" />
+                <button class="pure-button chatButton" id="sendChat">Send</button>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+<script>
+    //Socket io script  
+    var socket = io.connect('http://localhost:3000', {
+        'forceNew': true
+    });
+    var colorStack = {};
+    var lastMsgUid = "";
+    var signInMsg = 0;
+    //Event handling script
+
+    $('#uidEnter').prop("disabled", true);
+    $('#sendChat').prop("disabled", true);
+
+    $("#uidEnter").click(function() {
+        var name = $('#uid').val();
+        if ($('#uid').val().length == 0) {
+            alert("Please enter your name to enter");
+        } else {
+            socket.emit('check uname', {
+                uid: $('#uid').val()
+            });
+        }
+        return false;
+    });
+    socket.on('uid_unique', function() {
+        $("#welcome").hide();
+        $("#chatroom").show();
+        $('#m').focus();
+        $("#userWC").text("Welcome " + $('#uid').val() + "!");
+        signInTime = new Date().toString('YYYY-MM-DD HH:MM:SS');
+        socket.emit('user connected', {
+            uid: $('#uid').val()
+        });
+    });
+    socket.on('uid_not_unique', function() {
+        alert("This user id is taken. Please try another one.");
+    });
+    $("#closeButton").click(function() {
+
+        $("#messages").empty();
+        $('#uid').focus();
+        $('#m').val("");
+        $("#welcome").show();
+        $("#chatroom").hide();
+        $('#uid').val("");
+        $('#uidEnter').prop("disabled", true);
+        $('#sendChat').prop("disabled", true);
+        socket.emit('user disconnected');
+        return false;
+
+    });
+
+    $('#uid').on("keyup", action1);
+
+    function action1() {
+        if ($('#uid').val().length > 0) {
+            $('#uidEnter').prop("disabled", false);
+        } else {
+            $('#uidEnter').prop("disabled", true);
+        }
+    }
+    $('#m').on("keyup", action);
+
+    function action() {
+        if ($('#m').val().length > 0) {
+            $('#sendChat').prop("disabled", false);
+        } else {
+            $('#sendChat').prop("disabled", true);
+        }
+    }
+
+
+
+    $('#chatBox').submit(function() {
+
+        socket.emit('chat message', {
+            uid: $('#uid').val(),
+            msg: $('#m').val()
+        });
+        $('#m').val('');
+        return false;
+    });
+
+
+    socket.on('chat message', function(data) {
+      if(signInMsg < data.msgid){
+        if (lastMsgUid != "" && lastMsgUid == data.uid) {
+            $('#messages div').last().first().append('<span class="msg cmsg">' + data.msg + '</span><span class="mdate">' + new Date().toString('yyyy-MM-dd HH:mm') + '</span>');
+        } else {
+            lastMsgUid = data.uid;
+            var color = "";
+            if (colorStack[data.uid] != undefined) {
+                color = colorStack[data.uid];
+            } else {
+                color = getRandomColor();
+
+
+                colorStack[data.uid] = color;
+            }
+
+            var message = '<div><div class="message"><span class="uid" style="color:' + color + ';">' + data.uid + '</span><span class="msg">' + data.msg + '</span><span class="mdate">' + new Date().toString('HH:mm') + '</span></div></div>';
+
+
+            if ($('#uid').val() == data.uid) {
+                message = '<div><div class="mymessage"><span class="msg">' + data.msg + '</span><span class="mdate">' + new Date().toString('yyyy-MM-dd HH:mm') + '</span></div></div>';
+            }
+            $('#messages').append(message);
+        }
+        $('#messages').animate({
+            scrollTop: $('#messages').prop("scrollHeight")
+        }, 500);
+      }
+    });
+
+    var lastScrollTop = 0;
+
+    $('#messages').scroll(function(event){
+       var st = $(this).scrollTop();
+       if (st <= lastScrollTop && signInMsg >0){
+          // upscroll code
+          socket.emit('chatScrollUp', {
+            msgid: signInMsg
+          });
+
+       }
+       // lastScrollTop = st;
+    });
+
+    socket.on('chatScrollUpResult', function(data) {
+        signInMsg -= data.length;
+        var firstMsgUid = "";
+        for (var i = 0; i < data.length; i++) {
+          var result = data[i];
+          if (firstMsgUid != "" && firstMsgUid == result.uid) {
+            if ($('#uid').val() == result.uid) {
+                $('#messages div div').first().prepend('<span class="msg cmsg">' + result.msg + '</span><span class="mdate">' + result.time_stamp + '</span>');
+            }else{
+              $('#messages div div span').first().after('<span class="msg cmsg">' + result.msg + '</span><span class="mdate">' + result.time_stamp + '</span>');
+            }
+            } else {
+            firstMsgUid = result.uid;
+            var color = "";
+            if (colorStack[result.uid] != undefined) {
+                color = colorStack[result.uid];
+            } else {
+                color = getRandomColor();
+
+
+                colorStack[result.uid] = color;
+            }
+
+            var message = '<div><div class="message"><span class="uid" style="color:' + color + ';">' + result.uid + '</span><span class="msg">' + result.msg + '</span><span class="mdate">' + result.time_stamp + '</span></div></div>';
+
+
+            if ($('#uid').val() == result.uid) {
+                message = '<div><div class="mymessage"><span class="msg">' + result.msg + '</span><span class="mdate">' + result.time_stamp + '</span></div></div>';
+            }
+            $('#messages').prepend(message);
+        }           
+        }  
+    });
+
+
+    socket.on('onlineUsersList', function(data) {
+        $('#online_list').empty();
+        for (var i = 0; i < data.length; i++) {
+            var client = data[i];
+            var userLi = $('<li></li>').text(client).attr('id', client); //'<li id="'+data.uid+'">'+data.uid+'</li>';
+            $('#online_list').append(userLi);
+        }
+    });
+
+
+    socket.on('user connected', function(data) {
+
+        var id = String(data.uid);
+        if ($('#uid').val() != data.uid ) {
+            var userLi = $('<li></li>').text(data.uid).attr('id', id); //'<li id="'+data.uid+'">'+data.uid+'</li>';
+            $('#online_list').append(userLi);
+            $('#messages').append($('<div>').text(id + " joined").attr('class', 'userLog'));
+            lastMsgUid = "";
+        } else {
+            $("#messages").empty();
+            socket.emit('onlineUsersList');
+            signInMsg = data.msgid;
+            socket.emit('chatScrollUp', {
+            msgid: signInMsg
+            });
+            
+        }
+
+        $(".total").text("(" + data.total + ")");
+
+    });
+
+    // $('#userForm').submit(function(){
+    //   socket.emit('user disconnected', { uid:$('#uid').val()});  
+    //   return false;
+    // });
+
+
+    socket.on('user disconnected', function(data) {
+        // alert("here")
+        $('#online_list').find('#' + data.uid).remove();
+        $('#messages').append($('<div>').text(data.uid + " left").attr('class', 'userLog'));
+        $(".total").text("(" + data.total + ")");
+        lastMsgUid = "";
+
+    });
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        if (color.toString().toLowerCase().indexOf("fffff") == 1)
+            getRandomColor();
+        return color;
+    }
+</script>
+
+</html>
