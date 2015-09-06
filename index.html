@@ -231,6 +231,15 @@
             border-bottom: 8px solid transparent;
             border-left: 8px solid #E8E8E8;
         }
+
+        div.loading {
+                position: relative;
+    
+    background: url('images/ajax-loader.gif') no-repeat center center;
+    height: 50px;
+    width: 50px;
+    margin-left: 50%;
+        }
     </style>
 </head>
 <script src="/socket.io/socket.io.js"></script>
@@ -377,7 +386,7 @@
                 colorStack[data.uid] = color;
             }
 
-            var message = '<div><div class="message"><span class="uid" style="color:' + color + ';">' + data.uid + '</span><span class="msg">' + data.msg + '</span><span class="mdate">' + new Date().toString('HH:mm') + '</span></div></div>';
+            var message = '<div><div class="message"><span class="uid" style="color:' + color + ';">' + data.uid + '</span><span class="msg">' + data.msg + '</span><span class="mdate">' + new Date().toString('yyyy-MM-dd HH:mm') + '</span></div></div>';
 
 
             if ($('#uid').val() == data.uid) {
@@ -396,7 +405,10 @@
     $('#messages').scroll(function(event){
        var st = $(this).scrollTop();
        if (st <= lastScrollTop && signInMsg >0){
+          
+           $('#messages').prepend($('<div>').attr('class', 'loading'));
           // upscroll code
+
           socket.emit('chatScrollUp', {
             msgid: signInMsg
           });
@@ -406,6 +418,16 @@
     });
 
     socket.on('chatScrollUpResult', function(data) {
+        //$('#messages').prepend($('<div>').attr('class', 'loading'));
+
+        var delay=1000; //1 seconds
+        if($('#messages div').length == 0){
+            delay = 0;
+        }
+        setTimeout(function(){
+          //your code to be executed after 1 seconds
+        
+        $('#messages').find('.loading').remove();
         signInMsg -= data.length;
         var firstMsgUid = "";
         for (var i = 0; i < data.length; i++) {
@@ -437,6 +459,11 @@
             $('#messages').prepend(message);
         }           
         }  
+        }, delay); 
+        if(delay == 0){
+            $('#messages').animate({
+            scrollTop: $('#messages').prop("scrollHeight") + 1000
+        }, 500);        }
     });
 
 
@@ -465,6 +492,7 @@
             socket.emit('chatScrollUp', {
             msgid: signInMsg
             });
+
             
         }
 
@@ -482,6 +510,9 @@
         // alert("here")
         $('#online_list').find('#' + data.uid).remove();
         $('#messages').append($('<div>').text(data.uid + " left").attr('class', 'userLog'));
+        $('#messages').animate({
+            scrollTop: $('#messages').prop("scrollHeight") + 500
+        }, 500);
         $(".total").text("(" + data.total + ")");
         lastMsgUid = "";
 
