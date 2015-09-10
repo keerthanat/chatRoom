@@ -4,7 +4,8 @@ FSE Chatroom
 This is a web-based chatroom application done as a part of Foundation of Engineering course.
 --------------
 
-** Application Usecases **
+**Application Usecases**
+
 The chat room allows a user to:
 - Enter the chat room with his/her name
 - See other usersâ€™ chat messages
@@ -12,6 +13,7 @@ The chat room allows a user to:
 - Leave the chat room 
 
 **Technology Used**
+
 Client side: HTML, CSS, JavaScript
 Server side: Node.js with express.js web development framework
 Database: SQLite 
@@ -21,5 +23,5 @@ When a user posts a chat message, the text is displayed together with the userâ€
 When there is a new post, the chat room is dynamically updated on all the screens of the users in the chat room (the updates are real time on all client browsers). 
 All the chat messages should be stored on the server in a database and loaded when a user exits and re-enters the chat room. 
 
-![alt tag](https://raw.githubusercontent.com/keerthanat/chatRoom/master/images/DemoLandingPage.jpeg)
+![alt tag](https://raw.githubusercontent.com/keerthanat/chatRoom/master/images/DemoLandingPage.jpg)
 ![alt tag](https://raw.githubusercontent.com/keerthanat/chatRoom/master/images/DemoChatPage.png)
