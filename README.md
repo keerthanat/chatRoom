@@ -2,7 +2,6 @@ FSE Chatroom
 ==============
 
 This is a web-based chatroom application done as a part of Foundation of Engineering course.
---------------
 
 ![alt tag](https://raw.githubusercontent.com/keerthanat/chatRoom/master/images/DemoLandingPage.jpg)
 ![alt tag](https://raw.githubusercontent.com/keerthanat/chatRoom/master/images/DemoChatPage.png)
