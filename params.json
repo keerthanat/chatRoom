@@ -1,0 +1,6 @@
+{
+  "name": "NodeJS Chatroom",
+  "tagline": "Foundations of Software Engineering Course Project",
+  "body": "FSE Chatroom\r\n==============\r\n\r\nThis is a web-based chatroom application done as a part of Foundation of Software Engineering course.\r\n\r\n![alt tag](https://raw.githubusercontent.com/keerthanat/chatRoom/master/images/DemoLandingPage.jpg)\r\n![alt tag](https://raw.githubusercontent.com/keerthanat/chatRoom/master/images/DemoChatPage.png)\r\n\r\n**Application Usecases**\r\n\r\nThe chat room allows a user to:\r\n- Enter the chat room with his/her name\r\n- See other users’ chat messages\r\n- Post a chat message \r\n- Leave the chat room \r\n\r\n**Technology Used**\r\n\r\n- Client side: HTML, CSS, JavaScpt\r\n- Server side: Node.js with express.js web development framework\r\n- Database: SQLite \r\n\r\nThe application serves these rules:\r\n- When a user posts a chat message, the text is displayed together with the user’s name and current timestamp. \r\n- When there is a new post, the chat room is dynamically updated on all the screens of the users in the chat room (the updates are real time on all client browsers). \r\n- All the chat messages are stored on the server in a database and loaded when a user exits and re-enters the chat room. \r\n\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
